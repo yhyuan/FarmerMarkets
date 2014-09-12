@@ -39,6 +39,7 @@ OUTPUT_PATH = "output"
 if arcpy.Exists(OUTPUT_PATH + "\\FarmerMarkets.gdb"):
 	os.system("rmdir " + OUTPUT_PATH + "\\FarmerMarkets.gdb /s /q")
 os.system("del " + OUTPUT_PATH + "\\*FarmerMarkets*.*")
+os.system("del " + OUTPUT_PATH + "\\Shapefile\\*FarmerMarkets*.*")
 arcpy.CreateFileGDB_management(OUTPUT_PATH, "FarmerMarkets", "9.3")
 arcpy.env.workspace = OUTPUT_PATH + "\\FarmerMarkets.gdb"
 
@@ -50,10 +51,11 @@ data = json.loads(json_file.read())
 json_file.close()
 
 featureData = []
+print len(data["rows"])
 for row in data["rows"]:
 	featureData.append([(row[9], row[8]), row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14], row[15]])
-
-featureFieldList = [["ID", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "ADDRESS", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "DESCRIPTION", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "EVENTS", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "HOURS", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "IMAGE_URL", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "INCLUDED_WINERIES", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "LANGUAGE", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "LATITUDE", "DOUBLE", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "LONGITUDE", "DOUBLE", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "MARKER", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "OWNERS", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "TITLE", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "TYPE", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "WEBSITE", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "WINEMAKERS", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""]]
+print len(featureData)
+featureFieldList = [["ID", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "ADDRESS", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "DESCRIPTION", "TEXT", "", "", "2000", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "EVENTS", "TEXT", "", "", "2000", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "HOURS", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "IMAGE_URL", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "INCLUDED_WINERIES", "TEXT", "", "", "2000", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "LANGUAGE", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "LATITUDE", "DOUBLE", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "LONGITUDE", "DOUBLE", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "MARKER", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "OWNERS", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "TITLE", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "TYPE", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "WEBSITE", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""], [  "WINEMAKERS", "TEXT", "", "", "", "", "NON_NULLABLE", "NON_REQUIRED", ""]]
 featureInsertCursorFields = ("SHAPE@XY", "ID",  "ADDRESS",  "DESCRIPTION",  "EVENTS",  "HOURS",  "IMAGE_URL",  "INCLUDED_WINERIES",  "LANGUAGE",  "LATITUDE",  "LONGITUDE",  "MARKER",  "OWNERS",  "TITLE",  "TYPE",  "WEBSITE",  "WINEMAKERS")
 createFeatureClass(featureName, featureData, featureFieldList, featureInsertCursorFields)
 
